@@ -9,6 +9,13 @@ export class Parser extends cal.Parser {
     super(table)
   }
 
+  readBinOp(elem: cal.Operation): cal.Expression {
+    const op = elem[idx.Operation.Keyword]
+    const left = this.readExpr(elem[idx.BinaryOperator.Left])
+    const right = this.readExpr(elem[idx.BinaryOperator.Right])
+    return new expr.BinaryOperator(op, left, right)
+  }
+
   readExpr(elem: cal.Element): cal.Expression {
     if (Array.isArray(elem)) {
       if (Array.isArray(elem[0])) {
@@ -17,18 +24,18 @@ export class Parser extends cal.Parser {
       } else {
         const keyword = elem[idx.Operation.Keyword]
         if (
-          [
-            kwd.Reference.Variable.toString(),
-            kwd.Reference.Subscript.toString(),
-          ].includes(keyword)
+          [kwd.Reference.Variable.toString(), kwd.Reference.Subscript].includes(
+            keyword
+          )
         ) {
           return this.readRef(elem as cal.Operation)
+        } else {
+          return this.readBinOp(elem as cal.Operation)
         }
       }
     } else {
       return elem
     }
-    throw new Error(`未実装です: ${elem}`)
   }
 
   readRef(elem: cal.Operation): cal.Reference {
@@ -48,8 +55,37 @@ t.set(kwd.Command.Assign, (p, s) => {
   const rhs = p.readExpr(s[idx.Assign.Rhs]) as cal.Expression
   return new cmd.Assign(lhs, rhs)
 })
+t.set(kwd.Command.Comment, () => {
+  return new cmd.Comment()
+})
+t.set(kwd.Command.Else, () => {
+  return new cmd.Else()
+})
+t.set(kwd.Command.ElseIf, (p, s) => {
+  const condition = p.readExpr(s[idx.Conditional.Expr])
+  return new cmd.ElseIf(condition)
+})
 t.set(kwd.Command.End, () => {
   return new cmd.End()
+})
+t.set(kwd.Command.EndElse, () => {
+  return new cmd.EndElse()
+})
+t.set(kwd.Command.EndElseIf, () => {
+  return new cmd.EndElseIf()
+})
+t.set(kwd.Command.EndIf, () => {
+  return new cmd.EndIf()
+})
+t.set(kwd.Command.EndIfs, () => {
+  return new cmd.EndIfs()
+})
+t.set(kwd.Command.If, (p, s) => {
+  const condition = p.readExpr(s[idx.Conditional.Expr])
+  return new cmd.If(condition)
+})
+t.set(kwd.Command.Ifs, () => {
+  return new cmd.Ifs()
 })
 t.set(kwd.Command.Print, (p, s) => {
   const args = s.slice(idx.Print.Args).map((arg) => p.readExpr(arg))

@@ -43,16 +43,6 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/vue'
-
-import { createRuntime } from '@/interpreter'
-
-const runtime = createRuntime(`
-[
-    [1,[],"print","Hello, World."],
-    [1,[],"end"]
-    ]
-`)
-runtime.run()
 </script>
 
 <style scoped>

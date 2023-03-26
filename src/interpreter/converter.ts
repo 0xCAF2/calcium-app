@@ -71,7 +71,13 @@ export function convert(sourceCode: string): string {
         return n
       })
 
-      code.push([indent, [], kwd.Command.Assign, name, rhs])
+      code.push([
+        indent,
+        [],
+        kwd.Command.Assign,
+        [kwd.Reference.Variable, name],
+        rhs,
+      ])
     } else if (ts.isExpressionStatement(stmt)) {
       // 代入の場合
       if (

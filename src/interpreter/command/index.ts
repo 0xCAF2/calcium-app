@@ -1,3 +1,7 @@
 export { Assign } from './assign'
+export { Comment } from './comment'
+export { If, ElseIf, Else } from './conditional'
 export { End } from './end'
+export { EndElse, EndElseIf, EndIf, EndIfs } from './endBlock'
+export { Ifs } from './ifs'
 export { Print } from './print'
