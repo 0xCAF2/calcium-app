@@ -14,6 +14,16 @@ export class BinaryOperator implements cal.Reference {
     const rightValue = env.evaluate(this.right)
     const operator = kwd.binaryOperatorTable[this.op]
     switch (operator) {
+      case kwd.BinaryOperator.Addition:
+        if (typeof leftValue === 'number' && typeof rightValue === 'number') {
+          return leftValue + rightValue
+        } else if (
+          typeof leftValue === 'string' &&
+          typeof rightValue === 'string'
+        ) {
+          return leftValue + rightValue
+        }
+        break
       case kwd.BinaryOperator.GreaterThan:
         if (typeof leftValue === 'number' && typeof rightValue === 'number') {
           return leftValue > rightValue
@@ -23,6 +33,17 @@ export class BinaryOperator implements cal.Reference {
         ) {
           return leftValue > rightValue
         }
+        break
+      case kwd.BinaryOperator.LessThan:
+        if (typeof leftValue === 'number' && typeof rightValue === 'number') {
+          return leftValue < rightValue
+        } else if (
+          typeof leftValue === 'string' &&
+          typeof rightValue === 'string'
+        ) {
+          return leftValue < rightValue
+        }
+        break
     }
     throw new OperatorNotSupported(operator)
   }

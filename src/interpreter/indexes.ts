@@ -13,6 +13,10 @@ export enum Print {
   Args = 3,
 }
 
+export enum While {
+  Condition = 3,
+}
+
 // Expressions
 
 export enum BinaryOperator {

@@ -1,6 +1,6 @@
 import * as cal from 'calcium-js'
 
-abstract class Conditional implements cal.Command {
+export abstract class Conditional implements cal.Command {
   constructor(readonly condition: cal.Expression) {}
 
   execute(env: cal.Environment): cal.Behavior {

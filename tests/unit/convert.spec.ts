@@ -26,4 +26,15 @@ describe('convert 関数のテスト', () => {
     const runtime = createRuntime(code)
     runtime.run()
   })
+  it('while 文の変換', () => {
+    const code = convert(`
+    let i = 0
+    while (i < 5) {
+      console.log(i)
+      i = i + 1
+    }`)
+    console.log(code)
+    const runtime = createRuntime(code)
+    runtime.run()
+  })
 })

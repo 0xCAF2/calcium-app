@@ -80,6 +80,9 @@ t.set(kwd.Command.EndIf, () => {
 t.set(kwd.Command.EndIfs, () => {
   return new cmd.EndIfs()
 })
+t.set(kwd.Command.EndWhile, () => {
+  return new cmd.EndWhile()
+})
 t.set(kwd.Command.If, (p, s) => {
   const condition = p.readExpr(s[idx.Conditional.Expr])
   return new cmd.If(condition)
@@ -90,6 +93,10 @@ t.set(kwd.Command.Ifs, () => {
 t.set(kwd.Command.Print, (p, s) => {
   const args = s.slice(idx.Print.Args).map((arg) => p.readExpr(arg))
   return new cmd.Print(args)
+})
+t.set(kwd.Command.While, (p, s) => {
+  const condition = p.readExpr(s[idx.While.Condition])
+  return new cmd.While(condition)
 })
 
 export const commandTable = t
