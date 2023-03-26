@@ -44,6 +44,10 @@ function parseExpr(n: ts.Node): cal.Element {
     const obj = parseExpr(n.expression)
     const index = parseExpr(n.argumentExpression)
     return [kwd.Reference.Subscript, obj, index]
+  } else if (ts.isCallExpression(n)) {
+    const ref = parseExpr(n.expression)
+    const args = n.arguments.map((a) => parseExpr(a))
+    return [kwd.Expression.Call, ref, ...args]
   } else {
     throw new Error('未実装です: ' + n.toString())
   }
@@ -67,7 +71,7 @@ export function convert(sourceCode: string): string {
         return n
       })
 
-      code.push([indent, kwd.Command.Assign, [name, rhs]])
+      code.push([indent, [], kwd.Command.Assign, name, rhs])
     } else if (ts.isExpressionStatement(stmt)) {
       // 代入の場合
       if (
@@ -92,14 +96,14 @@ export function convert(sourceCode: string): string {
             return n
           }
         )
-        code.push([indent, kwd.Command.Assign, [lhs, rhs]])
+        code.push([indent, [], kwd.Command.Assign, lhs, rhs])
       } else {
         try {
           parseExpr(stmt)
         } catch (e) {
           if (e instanceof Print) {
             // print 文としてコードへ追加します。
-            code.push([indent, kwd.Command.Print, e.args])
+            code.push([indent, [], kwd.Command.Print, ...e.args])
           }
         }
       }
@@ -108,22 +112,22 @@ export function convert(sourceCode: string): string {
       const condition = parseExpr(stmt.expression)
 
       // Calcium では ifs { if {} else if {} } とネストします。
-      code.push([indent, kwd.Command.Ifs, []])
+      code.push([indent, [], kwd.Command.Ifs])
       ++indent
-      code.push([indent, kwd.Command.If, [condition]])
+      code.push([indent, [], kwd.Command.If, condition])
       ++indent
       _visit(stmt.thenStatement)
-      code.push([indent, kwd.Command.EndIf, []])
+      code.push([indent, [], kwd.Command.EndIf])
       --indent
 
       if (stmt.elseStatement !== undefined) {
         const _visitElseIf = (n: ts.Node) => {
           if (ts.isIfStatement(n)) {
             // else if 文
-            code.push([indent, kwd.Command.ElseIf, [parseExpr(n.expression)]])
+            code.push([indent, [], kwd.Command.ElseIf, parseExpr(n.expression)])
             ++indent
             _visit(n.thenStatement)
-            code.push([indent, kwd.Command.EndElseIf, []])
+            code.push([indent, [], kwd.Command.EndElseIf])
             --indent
             // 連続した eise if 文
             if (n.elseStatement !== undefined) {
@@ -131,26 +135,26 @@ export function convert(sourceCode: string): string {
             }
           } else {
             // else 文
-            code.push([indent, kwd.Command.Else, []])
+            code.push([indent, [], kwd.Command.Else])
             ++indent
             _visit(n)
-            code.push([indent, kwd.Command.EndElse, []])
+            code.push([indent, [], kwd.Command.EndElse])
             --indent
           }
         }
         _visitElseIf(stmt.elseStatement)
       }
-      code.push([indent, kwd.Command.EndIfs, []])
+      code.push([indent, [], kwd.Command.EndIfs])
       --indent
     } else if (ts.isForStatement(stmt)) {
       debugger
     } else if (ts.isWhileStatement(stmt)) {
       // while 文
       const condition = parseExpr(stmt.expression)
-      code.push([indent, kwd.Command.While, [condition]])
+      code.push([indent, [], kwd.Command.While, condition])
       ++indent
       _visit(stmt.statement)
-      code.push([indent, kwd.Command.EndWhile, []])
+      code.push([indent, [], kwd.Command.EndWhile])
       --indent
     } else if (ts.isBlock(stmt)) {
       for (const s of stmt.statements) {
@@ -168,7 +172,7 @@ export function convert(sourceCode: string): string {
     _visit(stmt)
   }
 
-  code.push([indent, kwd.Command.End, []])
+  code.push([indent, [], kwd.Command.End])
 
   // フォーマットします。
   const lines = code.map((a) => JSON.stringify(a))

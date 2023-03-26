@@ -25,8 +25,8 @@ export const binaryOperatorTable: { [key: string]: BinaryOperator } = {
   '/': BinaryOperator.Division,
   '%': BinaryOperator.Remainder,
 
-  '===': BinaryOperator.Equal,
-  '!==': BinaryOperator.NotEqual,
+  '==': BinaryOperator.Equal,
+  '!=': BinaryOperator.NotEqual,
   '>': BinaryOperator.GreaterThan,
   '>=': BinaryOperator.GreaterThanOrEqual,
   '<': BinaryOperator.LessThan,
@@ -72,8 +72,6 @@ export const unaryOperatorTable: { [key: string]: UnaryOperator } = {
   '-': UnaryOperator.Minus,
 }
 
-export enum Function {
-  Int = 'int',
-  Len = 'len',
-  Random = 'random',
+export enum Expression {
+  Call = 'call',
 }
