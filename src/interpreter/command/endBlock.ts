@@ -10,7 +10,7 @@ abstract class EndBlock implements cal.Command {
 }
 
 export class EndElse extends EndBlock {
-  delta = -2
+  readonly delta = -2
 }
 
 export class EndElseIf extends EndElse {}
@@ -18,5 +18,5 @@ export class EndElseIf extends EndElse {}
 export class EndIf extends EndElse {}
 
 export class EndIfs extends EndBlock {
-  delta = -1
+  readonly delta = -1
 }
