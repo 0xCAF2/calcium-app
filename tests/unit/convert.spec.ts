@@ -37,4 +37,13 @@ describe('convert 関数のテスト', () => {
     const runtime = createRuntime(code)
     runtime.run()
   })
+  it('for 文の変換', () => {
+    const code = convert(`
+    for (let i = 5; i >= 0; i -= 2) {
+      console.log(i)
+    }`)
+    console.log(code)
+    const runtime = createRuntime(code)
+    runtime.run()
+  })
 })

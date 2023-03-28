@@ -74,6 +74,12 @@ t.set(kwd.Command.EndElse, () => {
 t.set(kwd.Command.EndElseIf, () => {
   return new cmd.EndElseIf()
 })
+t.set(kwd.Command.EndForMinus, () => {
+  return new cmd.EndFor()
+})
+t.set(kwd.Command.EndForPlus, () => {
+  return new cmd.EndFor()
+})
 t.set(kwd.Command.EndIf, () => {
   return new cmd.EndIf()
 })
@@ -82,6 +88,20 @@ t.set(kwd.Command.EndIfs, () => {
 })
 t.set(kwd.Command.EndWhile, () => {
   return new cmd.EndWhile()
+})
+t.set(kwd.Command.ForMinus, (p, s) => {
+  const name = s[idx.For.Name] as string
+  const start = p.readExpr(s[idx.For.Start])
+  const stop = p.readExpr(s[idx.For.Stop])
+  const step = p.readExpr(s[idx.For.Step])
+  return new cmd.ForMinus(name, start, stop, step)
+})
+t.set(kwd.Command.ForPlus, (p, s) => {
+  const name = s[idx.For.Name] as string
+  const start = p.readExpr(s[idx.For.Start])
+  const stop = p.readExpr(s[idx.For.Stop])
+  const step = p.readExpr(s[idx.For.Step])
+  return new cmd.ForPlus(name, start, stop, step)
 })
 t.set(kwd.Command.If, (p, s) => {
   const condition = p.readExpr(s[idx.Conditional.Expr])

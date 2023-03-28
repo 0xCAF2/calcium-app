@@ -153,7 +153,62 @@ export function convert(sourceCode: string): string {
       code.push([indent, [], kwd.Command.EndIfs])
       --indent
     } else if (ts.isForStatement(stmt)) {
-      debugger
+      let name = ''
+      let start: cal.Element = null
+      let stop: cal.Element = null
+      let step: cal.Element = null
+      let endForKeyword = ''
+      if (stmt.initializer?.kind === ts.SyntaxKind.VariableDeclarationList) {
+        const declaration = (stmt.initializer as ts.VariableDeclarationList)
+          .declarations[0]
+        name = declaration.name.getText()
+        ts.visitNode(declaration.initializer, (n) => {
+          start = parseExpr(n)
+          return n
+        })
+      }
+      if (stmt.condition?.kind === ts.SyntaxKind.BinaryExpression) {
+        const binOp = stmt.condition as ts.BinaryExpression
+        const op = binOp.operatorToken.getText()
+        stop = parseExpr(binOp.right)
+
+        const stepper = stmt.incrementor as ts.BinaryExpression
+        const compoundAssignment = stepper.operatorToken.getText()
+        step = parseExpr(stepper.right)
+        if (op === '<=') {
+          // 増やしながら
+          if (compoundAssignment === '+=') {
+            code.push([
+              indent,
+              [],
+              kwd.Command.ForPlus,
+              name,
+              start,
+              stop,
+              step,
+            ])
+            endForKeyword = kwd.Command.EndForPlus
+          }
+        } else if (op === '>=') {
+          // 減らしながら
+          if (compoundAssignment === '-=') {
+            code.push([
+              indent,
+              [],
+              kwd.Command.ForMinus,
+              name,
+              start,
+              stop,
+              step,
+            ])
+            endForKeyword = kwd.Command.EndForMinus
+          }
+        }
+      }
+      ++indent
+      _visit(stmt.statement)
+      code.push([indent, [], endForKeyword])
+      --indent
     } else if (ts.isWhileStatement(stmt)) {
       // while 文
       const condition = parseExpr(stmt.expression)

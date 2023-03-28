@@ -9,6 +9,13 @@ export enum Conditional {
   Expr = 3,
 }
 
+export enum For {
+  Name = 3,
+  Start = 4,
+  Stop = 5,
+  Step = 6,
+}
+
 export enum Print {
   Args = 3,
 }

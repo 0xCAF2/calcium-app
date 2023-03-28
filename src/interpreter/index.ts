@@ -31,6 +31,7 @@ export function createRuntime(code: string): cal.Runtime {
         ) {
           const loop = r.parser.readStmt(s)
           loop.execute(r.env)
+          r.env.previousBehavior = cal.Behavior.Loop
           r.backward()
           return true
         }

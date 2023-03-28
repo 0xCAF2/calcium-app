@@ -7,4 +7,5 @@ abstract class EndLoop implements cal.Command {
   }
 }
 
+export class EndFor extends EndLoop {}
 export class EndWhile extends EndLoop {}
