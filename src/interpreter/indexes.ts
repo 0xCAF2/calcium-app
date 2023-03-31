@@ -31,6 +31,11 @@ export enum BinaryOperator {
   Right = 2,
 }
 
+export enum Call {
+  Callee = 1,
+  Arguments = 2,
+}
+
 export enum Operation {
   Keyword = 0,
 }

@@ -44,6 +44,13 @@ export class BinaryOperator implements cal.Reference {
           return leftValue < rightValue
         }
         break
+      case kwd.BinaryOperator.Multiplication:
+        if (typeof leftValue === 'number' && typeof rightValue === 'number') {
+          return leftValue * rightValue
+        }
+        break
+      default:
+        break
     }
     throw new OperatorNotSupported(operator)
   }

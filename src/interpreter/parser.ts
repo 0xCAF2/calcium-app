@@ -24,9 +24,11 @@ export class Parser extends cal.Parser {
       } else {
         const keyword = elem[idx.Operation.Keyword]
         if (
-          [kwd.Reference.Variable.toString(), kwd.Reference.Subscript].includes(
-            keyword
-          )
+          [
+            kwd.Reference.Variable.toString(),
+            kwd.Reference.Subscript.toString(),
+            kwd.Reference.Call.toString(),
+          ].includes(keyword)
         ) {
           return this.readRef(elem as cal.Operation)
         } else {
@@ -40,12 +42,15 @@ export class Parser extends cal.Parser {
 
   readRef(elem: cal.Operation): cal.Reference {
     const keyword = elem[idx.Operation.Keyword]
-    switch (keyword) {
-      case kwd.Reference.Variable:
-        return new expr.Variable(elem[idx.Variable.Name] as string)
-      default:
-        throw new Error(`未実装です: ${elem}`)
+    if (keyword === kwd.Reference.Variable) {
+      return new expr.Variable(elem[idx.Variable.Name] as string)
+    } else if (keyword === kwd.Reference.Call) {
+      // TODO: modify the name of a function to a reference to a function
+      const name = (elem[idx.Call.Callee] as string[])[1] as string
+      const args = elem.slice(idx.Call.Arguments).map((e) => this.readExpr(e))
+      return new expr.Call(name, args)
     }
+    throw new Error(`未実装です: ${elem}`)
   }
 }
 

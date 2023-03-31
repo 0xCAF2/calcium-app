@@ -60,6 +60,7 @@ export enum Command {
 export enum Reference {
   Subscript = 'sub',
   Variable = 'var',
+  Call = 'call',
 }
 
 export enum UnaryOperator {

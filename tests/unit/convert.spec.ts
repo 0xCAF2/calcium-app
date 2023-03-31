@@ -10,7 +10,12 @@ describe('convert 関数のテスト', () => {
     )
   })
   it('関数の変換', () => {
-    console.log(convert(`let dice = 整数(乱数() * 6) + 1`))
+    const code = convert(`let dice = int(random() * 6) + 1
+    console.log(dice)
+    `)
+    console.log(code)
+    const runtime = createRuntime(code)
+    runtime.run()
   })
   it('if 文の変換', () => {
     const code = convert(`
