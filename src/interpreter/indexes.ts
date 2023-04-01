@@ -40,6 +40,11 @@ export enum Operation {
   Keyword = 0,
 }
 
+export enum Subscript {
+  Ref = 1,
+  Index = 2,
+}
+
 export enum Variable {
   Name = 1,
 }

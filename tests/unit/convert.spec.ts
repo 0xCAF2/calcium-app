@@ -51,4 +51,20 @@ describe('convert 関数のテスト', () => {
     const runtime = createRuntime(code)
     runtime.run()
   })
+  it('subscript 式の変換', () => {
+    const code = convert(`
+    let a = [0, 1, 2]
+    console.log(a[1])
+    a[1] = 7
+    console.log(a)
+    let sum = 0
+    for (let i = 0; i <= 2; i += 1) {
+      sum = sum + a[i]
+    }
+    console.log(sum)
+    `)
+    console.log(code)
+    const runtime = createRuntime(code)
+    runtime.run()
+  })
 })

@@ -49,6 +49,10 @@ export class Parser extends cal.Parser {
       const name = (elem[idx.Call.Callee] as string[])[1] as string
       const args = elem.slice(idx.Call.Arguments).map((e) => this.readExpr(e))
       return new expr.Call(name, args)
+    } else if (keyword === kwd.Reference.Subscript) {
+      const array = this.readRef(elem[idx.Subscript.Ref] as cal.Operation)
+      const index = this.readExpr(elem[idx.Subscript.Index])
+      return new expr.Subscript(array, index)
     }
     throw new Error(`未実装です: ${elem}`)
   }
