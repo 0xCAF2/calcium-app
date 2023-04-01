@@ -4,6 +4,7 @@ export enum BinaryOperator {
   Multiplication = '*',
   Exponentiation = '**',
   Division = '/',
+  FloorDivision = '÷',
   Remainder = '%',
 
   Equal = '==',
@@ -23,6 +24,7 @@ export const binaryOperatorTable: { [key: string]: BinaryOperator } = {
   '*': BinaryOperator.Multiplication,
   '**': BinaryOperator.Exponentiation,
   '/': BinaryOperator.Division,
+  '÷': BinaryOperator.FloorDivision,
   '%': BinaryOperator.Remainder,
 
   '==': BinaryOperator.Equal,
@@ -32,6 +34,8 @@ export const binaryOperatorTable: { [key: string]: BinaryOperator } = {
   '<': BinaryOperator.LessThan,
   '<=': BinaryOperator.LessThanOrEqual,
 
+  and: BinaryOperator.And,
+  or: BinaryOperator.Or,
   '&&': BinaryOperator.And,
   '||': BinaryOperator.Or,
 }

@@ -78,4 +78,28 @@ describe('convert 関数のテスト', () => {
     const runtime = createRuntime(code)
     runtime.run()
   })
+  it('二項演算子の計算', () => {
+    const code = `
+    [
+      [1,[],"=",["var","a"],["+",1,2]],
+      [1,[],"print",["var","a"]],
+      [1,[],"=",["var","b"],["-",7,3]],
+      [1,[],"print",["var","b"]],
+      [1,[],"print",["*",["var","a"],["var","b"]]],
+      [1,[],"print",["**",["var","a"],["var","b"]]],
+      [1,[],"print",["/",["var","b"],["var","a"]]],
+      [1,[],"print",["÷",["var","b"],["var","a"]]],
+      [1,[],"print",["%",["var","b"],["var","a"]]],
+      [1,[],"print",["<",["var","b"],["var","a"]]],
+      [1,[],"print",["<=",["var","b"],["var","a"]]],
+      [1,[],"print",[">",["var","b"],["var","a"]]],
+      [1,[],"print",[">=",["var","b"],["var","a"]]],
+      [1,[],"print",["and",[">=",["var","b"],["var","a"]],["<",["var","a"],["var","b"]]]],
+      [1,[],"print",["or",["==",["var","b"],["var","a"]],["!=",["var","a"],["var","b"]]]],
+      [1,[],"end"]
+      ]`
+    console.log(code)
+    const runtime = createRuntime(code)
+    runtime.run()
+  })
 })
