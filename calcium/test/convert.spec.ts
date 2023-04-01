@@ -1,5 +1,6 @@
-import { createRuntime } from '@/interpreter'
-import { convert } from '@/interpreter/converter'
+import { describe, it } from '@jest/globals'
+import { createRuntime } from '../interpreter'
+import { convert } from '../interpreter/converter'
 
 describe('convert 関数のテスト', () => {
   it('console.log() の変換', () => {

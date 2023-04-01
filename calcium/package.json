@@ -1,0 +1,35 @@
+{
+  "name": "calcium-app",
+  "version": "0.0.1",
+  "description": "Calcium runtime for pseudo language",
+  "main": "dist/interpreter/index.js",
+  "types": "dist/interpreter/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "calcium",
+    "language",
+    "interpreter",
+    "runtime"
+  ],
+  "author": "0xCAF2",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "^7.21.4",
+    "@jest/globals": "^29.5.0",
+    "babel-jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.3"
+  },
+  "dependencies": {
+    "calcium-js": "^0.3.0"
+  }
+}
