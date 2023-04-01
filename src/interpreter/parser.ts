@@ -31,6 +31,17 @@ export class Parser extends cal.Parser {
           ].includes(keyword)
         ) {
           return this.readRef(elem as cal.Operation)
+        } else if (
+          [
+            kwd.UnaryOperator.Minus.toString(),
+            kwd.UnaryOperator.Not.toString(),
+          ].includes(keyword)
+        ) {
+          const op = elem[idx.Operation.Keyword]
+          const operand = this.readExpr(
+            elem[idx.UnaryOperator.Operand] as cal.Element
+          )
+          return new expr.UnaryOperator(op, operand)
         } else {
           return this.readBinOp(elem as cal.Operation)
         }

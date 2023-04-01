@@ -102,4 +102,14 @@ describe('convert 関数のテスト', () => {
     const runtime = createRuntime(code)
     runtime.run()
   })
+  it('単項演算子の計算', () => {
+    const code = convert(`
+    let n = -7
+    console.log(-n)
+    let c = n > 0
+    console.log(!c)`)
+    console.log(code)
+    const runtime = createRuntime(code)
+    runtime.run()
+  })
 })

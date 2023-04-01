@@ -36,7 +36,12 @@ function parseExpr(n: ts.Node): cal.Element {
     const op = n.operatorToken.getText()
     return [kwd.binaryOperatorTable[op], parseExpr(n.left), parseExpr(n.right)]
   } else if (ts.isPrefixUnaryExpression(n)) {
-    return [kwd.unaryOperatorTable[n.operator], parseExpr(n.operand)]
+    return [
+      kwd.unaryOperatorTable[
+        n.operator === ts.SyntaxKind.MinusToken ? '-' : '!'
+      ],
+      parseExpr(n.operand),
+    ]
   } else if (ts.isArrayLiteralExpression(n)) {
     // Calcium における配列リテラルは、ネストする必要があります。
     return [n.elements.map((e) => parseExpr(e))]

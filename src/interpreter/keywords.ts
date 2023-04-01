@@ -76,6 +76,8 @@ export enum UnaryOperator {
 export const unaryOperatorTable: { [key: string]: UnaryOperator } = {
   '!': UnaryOperator.Not,
   '-': UnaryOperator.Minus,
+  '-_': UnaryOperator.Minus,
+  not: UnaryOperator.Not,
 }
 
 export enum Expression {

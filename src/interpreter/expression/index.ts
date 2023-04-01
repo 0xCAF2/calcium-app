@@ -1,4 +1,5 @@
 export { BinaryOperator } from './binaryOperator'
 export { Call } from './call'
 export { Subscript } from './subscript'
+export { UnaryOperator } from './unaryOperator'
 export { Variable } from './variable'

@@ -18,6 +18,12 @@ export class IndexNotApplied extends Error {
   }
 }
 
+export class MinusNotApplied extends Error {
+  constructor() {
+    super('- 演算子を使うには、数が必要です。')
+  }
+}
+
 export class NameNotFound extends Error {
   constructor(readonly name: string) {
     super(`変数 ${name} が見つかりませんでした。`)

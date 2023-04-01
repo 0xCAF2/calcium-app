@@ -49,6 +49,10 @@ export enum Subscript {
   Index = 2,
 }
 
+export enum UnaryOperator {
+  Operand = 1,
+}
+
 export enum Variable {
   Name = 1,
 }
