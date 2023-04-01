@@ -4,6 +4,12 @@ export class ArrayRequired extends Error {
   }
 }
 
+export class FillNotApplied extends Error {
+  constructor() {
+    super('すべての値を0にするには、配列が必要です。')
+  }
+}
+
 export class FunctionNotFound extends Error {}
 
 export class IndexNotApplied extends Error {

@@ -67,4 +67,15 @@ describe('convert 関数のテスト', () => {
     const runtime = createRuntime(code)
     runtime.run()
   })
+  it('fill 文の実行', () => {
+    const code = `[
+      [1, [], "=", ["var", "a"], [[1, 1, 1]]],
+      [1, [], "print", ["var", "a"]],
+      [1, [], "fill", ["var", "a"]],
+      [1, [], "print", ["var", "a"]],
+      [1, [], "end"]
+    ]`
+    const runtime = createRuntime(code)
+    runtime.run()
+  })
 })

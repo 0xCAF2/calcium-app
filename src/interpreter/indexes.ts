@@ -9,6 +9,10 @@ export enum Conditional {
   Expr = 3,
 }
 
+export enum Fill {
+  Target = 3,
+}
+
 export enum For {
   Name = 3,
   Start = 4,

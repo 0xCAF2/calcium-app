@@ -98,6 +98,10 @@ t.set(kwd.Command.EndIfs, () => {
 t.set(kwd.Command.EndWhile, () => {
   return new cmd.EndWhile()
 })
+t.set(kwd.Command.Fill, (p, s) => {
+  const array = p.readRef(s[idx.Fill.Target] as cal.Operation)
+  return new cmd.Fill(array)
+})
 t.set(kwd.Command.ForMinus, (p, s) => {
   const name = s[idx.For.Name] as string
   const start = p.readExpr(s[idx.For.Start])

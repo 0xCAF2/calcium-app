@@ -49,6 +49,7 @@ export enum Command {
   EndIf = 'end if',
   EndIfs = 'end ifs',
   EndWhile = 'end while',
+  Fill = 'fill',
   ForMinus = 'for minus',
   ForPlus = 'for plus',
   If = 'if',
