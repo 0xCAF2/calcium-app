@@ -1,7 +1,0 @@
-{
-  "name": "CalciumApp",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "vue"
-}
