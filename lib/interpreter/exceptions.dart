@@ -1,0 +1,1 @@
+class InvalidCodeException implements Exception {}
