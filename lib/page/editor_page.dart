@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:calcium_app/page/select_command_page.dart';
+import 'package:calcium_app/provider/editing_command_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,21 +17,25 @@ class _EditorPageState extends ConsumerState<EditorPage> {
   final _keys = <int, GlobalKey>{};
   var _heightList = <double>[];
   var _highlightIndex = -1;
-  final _statements = List.generate(20, (index) => "$index");
+  final _statements = <String>[];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final list = <double>[];
-      for (var i in _keys.keys) {
-        final box = _keys[i]!.currentContext!.findRenderObject() as RenderBox;
-        final height = box.size.height;
-        list.add(height);
-      }
-      setState(() {
-        _heightList = list;
-      });
+      _updateHeightList();
+    });
+  }
+
+  void _updateHeightList() {
+    final list = <double>[];
+    for (var i in _keys.keys) {
+      final box = _keys[i]!.currentContext!.findRenderObject() as RenderBox;
+      final height = box.size.height;
+      list.add(height);
+    }
+    setState(() {
+      _heightList = list;
     });
   }
 
@@ -156,37 +164,41 @@ class _EditorPageState extends ConsumerState<EditorPage> {
           actions: [
             const Spacer(),
             IconButton(
-              onPressed: () {
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  final list = <double>[];
-                  for (var i in _keys.keys) {
-                    final box = _keys[i]!.currentContext!.findRenderObject()
-                        as RenderBox;
-                    final height = box.size.height;
-                    list.add(height);
+              onPressed: () async {
+                await showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  builder: (context) => const SelectCommandPage(),
+                );
+
+                ref.read(editingCommandProvider.notifier).update((state) {
+                  if (state != null) {
+                    final statement = jsonEncode(state);
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      _updateHeightList();
+                    });
+                    if (_highlightIndex == -1) {
+                      setState(() {
+                        _statements.insert(0, statement);
+                      });
+                      return;
+                    } else if (_highlightIndex >= _statements.length ||
+                        _highlightIndex == _statements.length - 1) {
+                      setState(() {
+                        _statements.add(statement);
+                        ++_highlightIndex;
+                      });
+                      return;
+                    } else if (_highlightIndex < _statements.length) {
+                      setState(() {
+                        _statements.insert(_highlightIndex + 1, statement);
+                      });
+                    }
+                    return null;
                   }
-                  setState(() {
-                    _heightList = list;
-                  });
+                  return null;
                 });
-                if (_highlightIndex == -1) {
-                  setState(() {
-                    _statements.insert(0, "New 0'");
-                  });
-                  return;
-                } else if (_highlightIndex >= _statements.length ||
-                    _highlightIndex == _statements.length - 1) {
-                  setState(() {
-                    _statements.add("New ${_statements.length}");
-                    ++_highlightIndex;
-                  });
-                  return;
-                } else if (_highlightIndex < _statements.length) {
-                  setState(() {
-                    _statements.insert(
-                        _highlightIndex + 1, "New $_highlightIndex");
-                  });
-                }
               },
               icon: const Icon(Icons.add),
             ),
