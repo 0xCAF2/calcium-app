@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:calcium_app/interpreter/pseudo/parser_impl.dart';
+import 'package:calcium_app/interpreter/runtime_engine.dart';
+import 'package:calcium_app/interpreter/statement.dart';
 import 'package:calcium_app/page/select_command_page.dart';
 import 'package:calcium_app/provider/editing_command_provider.dart';
 import 'package:flutter/material.dart';
@@ -218,7 +221,16 @@ class _EditorPageState extends ConsumerState<EditorPage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () async {
+            final code = <Statement>[];
+            for (var stmt in _statements) {
+              code.add(jsonDecode(stmt));
+            }
+            final runtime = RuntimeEngine.fromJson(code, parser: ParserImpl());
+            for (var i = 0; i < _statements.length; ++i) {
+              await runtime.step();
+            }
+          },
           child: const Icon(Icons.play_arrow),
         ),
       ),
