@@ -1,30 +1,46 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { onMounted, ref } from 'vue'
+import Blockly from 'blockly'
+// @ts-ignore
+import DarkTheme from '@blockly/theme-dark'
+
+const divBlockly = ref()
+
+let editableWorkspace: Blockly.Workspace
+
+onMounted(() => {
+  editableWorkspace = Blockly.inject(divBlockly.value, {
+    renderer: 'zelos',
+    sounds: false,
+    theme: DarkTheme,
+    zoom: { startScale: 0.7 },
+    toolbox: {
+      kind: 'categoryToolbox',
+      contents: [
+        {
+          kind: 'category',
+          name: '代入',
+          contents: [
+            {
+              kind: 'block',
+              type: 'controls_if'
+            }
+          ]
+        }
+      ]
+    }
+  })
+})
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <div ref="divBlockly" id="divBlockly"></div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+#divBlockly {
+  width: 640px;
+  height: 400px;
 }
 </style>
