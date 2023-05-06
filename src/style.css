@@ -1,0 +1,25 @@
+.iframeDisplay {
+  width: 360px;
+  height: 640px;
+}
+
+.divBlockly, .divPseudo {
+  left: 4px;
+  top: 4px;
+}
+
+.divBlockly {
+  width: 640px;
+  height: 400px;
+  z-index: 100;
+  margin-right: 8px;
+}
+
+.divPseudo {
+  position: absolute;
+  width: 616px;
+  height: 376px;
+  padding: 8px;
+  z-index: 300;
+  background-color: white;
+}

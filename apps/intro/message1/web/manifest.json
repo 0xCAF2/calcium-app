@@ -1,6 +1,6 @@
 {
-    "name": "intro",
-    "short_name": "intro",
+    "name": "message1",
+    "short_name": "message1",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

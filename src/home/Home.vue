@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router';
 <template>
   <div>
     <RouterLink :to="{ name: routeName.intro }">
-      <h2>こんにちは、世界！ はじめまして！</h2>
+      <h2>こんにちは！ はじめまして！</h2>
     </RouterLink>
   </div>
 </template>
