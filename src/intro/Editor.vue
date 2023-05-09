@@ -86,8 +86,7 @@ onMounted(() => {
       <div ref="divBlockly" class="divBlockly"></div>
       <div ref="divPseudo" class="divPseudo" v-show="state.app === AppState.Launched"></div>
     </div>
-    <h3>好きなものを共有するためのアプリを作ります。</h3>
-    <h3>名前、好きなもの、の順に送信する必要があります。</h3>
+    <slot></slot>
   </div>
   <iframe ref="iframeDisplay" class="iframeDisplay" src="/apps/intro/favorite/build/web/index.html"></iframe>
 </template>
