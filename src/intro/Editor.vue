@@ -4,8 +4,11 @@ import Blockly from 'blockly'
 // @ts-ignore
 import DarkTheme from '@blockly/theme-dark'
 import './definition'
+// @ts-ignore
+import generator from './generator.js'
 
 const divBlockly = ref<HTMLDivElement>()
+const divPseudo = ref<HTMLDivElement>()
 const iframeDisplay = ref<HTMLIFrameElement>()
 
 enum AppState {
@@ -74,7 +77,11 @@ onMounted(() => {
   })
 
   iframeDisplay.value!.contentWindow!.editCode = () => state.app = AppState.Editing
-  iframeDisplay.value!.contentWindow!.launchApp = () => state.app = AppState.Launched
+  iframeDisplay.value!.contentWindow!.launchApp = () => {
+    const code = generator.workspaceToCode(editableWorkspace)
+    divPseudo.value!.innerText = code
+    state.app = AppState.Launched
+  }
   iframeDisplay.value!.contentWindow!.send = (name, favorite) => console.log(name, favorite)
 })
 
