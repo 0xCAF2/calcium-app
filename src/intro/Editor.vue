@@ -26,6 +26,7 @@ declare global {
     launchApp: () => void
     editCode: () => void
     send: (name: string, favorite: string) => void
+    generateCode: () => string
   }
 }
 
@@ -76,13 +77,21 @@ onMounted(() => {
     }
   })
 
-  iframeDisplay.value!.contentWindow!.editCode = () => state.app = AppState.Editing
+  iframeDisplay.value!.contentWindow!.editCode = () => {
+    state.app = AppState.Editing
+  }
   iframeDisplay.value!.contentWindow!.launchApp = () => {
+    // TODO: parse code and show pseudo representation
     const code = generator.workspaceToCode(editableWorkspace)
     divPseudo.value!.innerText = code
     state.app = AppState.Launched
   }
-  iframeDisplay.value!.contentWindow!.send = (name, favorite) => console.log(name, favorite)
+  iframeDisplay.value!.contentWindow!.send = (name, favorite) => {
+    console.log(name, favorite)
+  }
+  iframeDisplay.value!.contentWindow!.generateCode = () => {
+    return generator.workspaceToCode(editableWorkspace)
+  }
 })
 
 </script>

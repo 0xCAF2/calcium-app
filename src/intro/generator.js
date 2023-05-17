@@ -12,13 +12,19 @@ generator['calcium_variable_favorite'] = function () {
 }
 
 generator['calcium_input'] = function (block) {
-  const variable = JSON.parse(removeParens(generator.valueToCode(block, 'REF', 0)) || 'null')
+  const variable = JSON.parse(
+    removeParens(generator.valueToCode(block, 'REF', 0)) || 'null'
+  )
   return JSON.stringify([1, [], 'input', variable]) + ','
 }
 
 generator['calcium_send'] = function (block) {
-  const arg1 = JSON.parse(removeParens(generator.valueToCode(block, 'ARG1', 0)) || 'null')
-  const arg2 = JSON.parse(removeParens(generator.valueToCode(block, 'ARG2', 0)) || 'null')
+  const arg1 = JSON.parse(
+    removeParens(generator.valueToCode(block, 'ARG1', 0)) || 'null'
+  )
+  const arg2 = JSON.parse(
+    removeParens(generator.valueToCode(block, 'ARG2', 0)) || 'null'
+  )
   return JSON.stringify([1, [], 'send', arg1, arg2]) + ','
 }
 
@@ -26,6 +32,10 @@ generator.scrub_ = function (block, code, opt_thisOnly) {
   const nextBlock = block.nextConnection && block.nextConnection.targetBlock()
   const nextCode = opt_thisOnly ? '' : generator.blockToCode(nextBlock)
   return code + nextCode
+}
+
+generator.scrubNakedValue = function () {
+  return ''
 }
 
 generator.finish = function (code) {
